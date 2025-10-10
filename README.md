@@ -11,6 +11,8 @@ Supports Cinnamon, GNOME, MATE, XFCE, KDE, and LXDE via adaptive command detecti
 - vala
 - gtk+-3.0
 - plank-reloaded
+- glib-2.0
+- json-glib-1.0
 
 ## Installation
 
@@ -39,6 +41,10 @@ After installation, open the Plank Reloaded settings, navigate to "Docklets", an
 - Automatically detects the desktop environment using XDG_CURRENT_DESKTOP
 
 - Displays confirmation dialogs before executing system-level actions
+
+## What’s new in 0.1.1
+
+- Added a setting to control whether confirmation dialogs are shown before performing actions.
 
 ## License
 

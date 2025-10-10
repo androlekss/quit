@@ -16,7 +16,8 @@ public class SessionManager : Object
     private static Gee.List<string> logout_cmds;
 
 
-    public static void init_commands() {
+    public static void init_commands()
+    {
 
         info("[SessionManager] Initializing command lists");
 
@@ -41,6 +42,15 @@ public class SessionManager : Object
     {
         info("[SessionManager] Received action: %s\n", action.to_string());
         init_commands();
+
+        var settings = new Quit.SettingsManager();
+
+        if(!settings.get_confirm_dialogs())
+        {
+            perform(action);
+            return;
+        }
+
         string message;
         switch(action)
         {
@@ -140,8 +150,4 @@ public class SessionManager : Object
     }
 }
 }
-
-
-
-
 

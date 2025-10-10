@@ -30,8 +30,10 @@ public class QuitDockItem : DockletItem
         }
     }
 
-    protected override AnimationType on_clicked(PopupButton button, Gdk.ModifierType mod, uint32 event_time) {
-        if ((button & PopupButton.LEFT) != 0) {
+    protected override AnimationType on_clicked(PopupButton button, Gdk.ModifierType mod, uint32 event_time)
+    {
+        if((button & PopupButton.LEFT) != 0)
+        {
             new Quit.QuitDialog(null);
             return AnimationType.NONE;
         }
@@ -66,8 +68,18 @@ public class QuitDockItem : DockletItem
             });
         items.add(quit_item);
 
+        var separator = new Gtk.SeparatorMenuItem();
+        items.add(separator);
+
+        var settings_item = new Gtk.MenuItem.with_label(_("Settings"));
+        settings_item.activate.connect(() => {
+                new Quit.SettingsWindow();
+            });
+        items.add(settings_item);
+
         return items;
     }
 
 }
 }
+

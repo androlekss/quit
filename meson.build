@@ -2,13 +2,14 @@ project(
   'quit-docklet',
   'vala',
   'c',
-  version: '0.1.0',
+  version: '0.1.1',
 )
 
 # Dependencies
 gtk_dep = dependency('gtk+-3.0')
 gee = dependency('gee-0.8')
 plank_dep = dependency('plank')
+json_dep = dependency('json-glib-1.0')
 i18n = import('i18n')
 
 # Configure the build
@@ -38,6 +39,8 @@ sources = [
   'QuitDockItemPreferences.vala',
   'QuitDialog.vala',
   'SessionManager.vala',
+  'SettingsManager.vala',
+  'SettingsWindow.vala',
   resources,
 ]
 
@@ -45,7 +48,7 @@ sources = [
 shared_module(
   'docklet-quit',
   sources,
-  dependencies: [gtk_dep, plank_dep, gee],
+  dependencies: [gtk_dep, plank_dep, gee, json_dep],
   install: true,
   install_dir: '/usr/lib/x86_64-linux-gnu/plank/docklets',
 )
