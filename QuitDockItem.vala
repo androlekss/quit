@@ -19,6 +19,13 @@ public class QuitDockItem : DockletItem
 
         prefs = (QuitDockItemPreferences) Prefs;
         Icon = "resource://" + Quit.G_RESOURCE_PATH + "/icons/quit.png";
+        Text = "Quick access to session actions";
+
+        ((QuitDockItemPreferences) Prefs).notify["CustomIcon"].connect(() => {
+            update_icon();
+        });
+
+        update_icon();
 
         clipboard = Gtk.Clipboard.get(Gdk.Atom.intern("CLIPBOARD", true));
 
@@ -34,7 +41,7 @@ public class QuitDockItem : DockletItem
     {
         if((button & PopupButton.LEFT) != 0)
         {
-            new Quit.QuitDialog(null);
+            new Quit.QuitDialog(null, prefs);
             return AnimationType.NONE;
         }
 
@@ -47,24 +54,24 @@ public class QuitDockItem : DockletItem
 
         var shutdown_item = new Gtk.MenuItem.with_label(_("Shut down"));
         shutdown_item.activate.connect(() => {
-                Quit.SessionManager.perform_with_confirmation(null, SessionManager.Action.SHUTDOWN);
+                Quit.SessionManager.perform_with_confirmation(null, SessionManager.Action.SHUTDOWN, prefs);
             });
         items.add(shutdown_item);
 
         var reboot_item = new Gtk.MenuItem.with_label(_("Reboot"));
         reboot_item.activate.connect(() => {
-                Quit.SessionManager.perform_with_confirmation(null, SessionManager.Action.REBOOT);
+                Quit.SessionManager.perform_with_confirmation(null, SessionManager.Action.REBOOT, prefs);
             });
         items.add(reboot_item);
 
         var logout_item = new Gtk.MenuItem.with_label(_("Log out"));
         logout_item.activate.connect(() => {
-                Quit.SessionManager.perform_with_confirmation(null, SessionManager.Action.LOGOUT);
+                Quit.SessionManager.perform_with_confirmation(null, SessionManager.Action.LOGOUT, prefs);
             });
         items.add(logout_item);
         var quit_item = new Gtk.MenuItem.with_label(_("Session Control"));
         quit_item.activate.connect(() => {
-                new Quit.QuitDialog(null);
+                new Quit.QuitDialog(null, prefs);
             });
         items.add(quit_item);
 
@@ -73,13 +80,27 @@ public class QuitDockItem : DockletItem
 
         var settings_item = new Gtk.MenuItem.with_label(_("Settings"));
         settings_item.activate.connect(() => {
-                new Quit.SettingsWindow();
+                new Quit.SettingsWindow(this, prefs);
             });
         items.add(settings_item);
 
         return items;
     }
 
+    public void update_icon()
+    {
+        string custom_icon = prefs.CustomIcon;
+        if(custom_icon != null && custom_icon != "")
+        {
+            Icon = custom_icon;
+        }
+        else
+        {
+            Icon = "resource://" + Quit.G_RESOURCE_PATH + "/icons/quit.png";
+        }
+    }
+
 }
 }
+
 

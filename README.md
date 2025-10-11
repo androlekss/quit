@@ -46,6 +46,10 @@ After installation, open the Plank Reloaded settings, navigate to "Docklets", an
 
 - Added a setting to control whether confirmation dialogs are shown before performing actions.
 
+## What’s new in 0.1.2
+
+- Added a setting to choose a custom icon for the docklet.
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the LICENSE file for details.

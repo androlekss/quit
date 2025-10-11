@@ -38,15 +38,12 @@ public class SessionManager : Object
         logout_cmds.add("cinnamon-session-quit --logout --no-prompt");
     }
 
-    public static void perform_with_confirmation(Gtk.Window? parent, Action action)
+    public static void perform_with_confirmation(Gtk.Window? parent, Action action, QuitDockItemPreferences prefs)
     {
         info("[SessionManager] Received action: %s\n", action.to_string());
         init_commands();
 
-        var settings = new Quit.SettingsManager();
-
-        if(!settings.get_confirm_dialogs())
-        {
+        if (!prefs.ConfirmDialogs) {
             perform(action);
             return;
         }

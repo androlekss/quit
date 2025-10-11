@@ -2,7 +2,7 @@
 namespace Quit {
 public class QuitDialog : Gtk.Dialog {
 
-    public QuitDialog(Gtk.Window? parent) {
+    public QuitDialog(Gtk.Window? parent, QuitDockItemPreferences prefs) {
         // Створюємо модальний діалог
         this.set_transient_for(parent);
         this.set_modal(true);
@@ -21,13 +21,13 @@ public class QuitDialog : Gtk.Dialog {
 
             switch (response_id) {
                 case Gtk.ResponseType.YES:
-                    SessionManager.perform_with_confirmation(parent, SessionManager.Action.SHUTDOWN);
+                    SessionManager.perform_with_confirmation(this, SessionManager.Action.SHUTDOWN, prefs);
                     break;
                 case Gtk.ResponseType.APPLY:
-                    SessionManager.perform_with_confirmation(parent, SessionManager.Action.REBOOT);
+                    SessionManager.perform_with_confirmation(this, SessionManager.Action.REBOOT, prefs);
                     break;
                 case Gtk.ResponseType.OK:
-                    SessionManager.perform_with_confirmation(parent, SessionManager.Action.LOGOUT);
+                    SessionManager.perform_with_confirmation(this, SessionManager.Action.LOGOUT, prefs);
                     break;
                 default:
                     info("[QuitDialog] Cancelled");
