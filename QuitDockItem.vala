@@ -19,7 +19,7 @@ public class QuitDockItem : DockletItem
 
         prefs = (QuitDockItemPreferences) Prefs;
         Icon = "resource://" + Quit.G_RESOURCE_PATH + "/icons/quit.png";
-        Text = "Quick access to session actions";
+        Text = "Click to open session actions";
 
         ((QuitDockItemPreferences) Prefs).notify["CustomIcon"].connect(() => {
             update_icon();

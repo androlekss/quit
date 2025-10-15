@@ -23,7 +23,7 @@ public class QuitDocklet : Object, Plank.Docklet
 
     public unowned string get_description()
     {
-        return _("A small Quit");
+        return _("Quick access to session actions");
     }
 
     public unowned string get_icon()
