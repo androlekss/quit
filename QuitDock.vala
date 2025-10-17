@@ -4,9 +4,7 @@ public static void docklet_init(Plank.DockletManager manager)
 }
 
 namespace Quit {
-/**
- * Resource path for the icon
- */
+
 public const string G_RESOURCE_PATH = "/at/greyh/quit";
 
 public class QuitDocklet : Object, Plank.Docklet

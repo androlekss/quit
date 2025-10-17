@@ -7,7 +7,6 @@ namespace Quit {
 public class QuitDockItem : DockletItem
 {
 
-    private Gtk.Clipboard clipboard;
     private Gdk.Pixbuf icon_pixbuf;
     private QuitDockItemPreferences prefs;
 
@@ -22,12 +21,10 @@ public class QuitDockItem : DockletItem
         Text = "Click to open session actions";
 
         ((QuitDockItemPreferences) Prefs).notify["CustomIcon"].connect(() => {
-            update_icon();
-        });
+                update_icon();
+            });
 
         update_icon();
-
-        clipboard = Gtk.Clipboard.get(Gdk.Atom.intern("CLIPBOARD", true));
 
         try {
             icon_pixbuf = new Gdk.Pixbuf.from_resource(Quit.G_RESOURCE_PATH + "/icons/quit.png");
@@ -102,5 +99,4 @@ public class QuitDockItem : DockletItem
 
 }
 }
-
 
