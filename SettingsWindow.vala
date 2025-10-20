@@ -10,9 +10,8 @@ public class SettingsWindow : Gtk.Window
         this.prefs = prefs;
 
         prefs.notify["CustomIcon"].connect(() => {
-            parent.update_icon();
-        });
-
+                parent.update_icon();
+            });
 
         title = "QuitDocklet Settings";
         set_default_size(300, 100);
@@ -46,23 +45,23 @@ public class SettingsWindow : Gtk.Window
 
         custom_icon_button.clicked.connect(() => {
                 show_icon_picker();
-        });
+            });
 
 
         reset_icon_button.clicked.connect(() => {
-            prefs.CustomIcon = "";
-            prefs.notify_property("CustomIcon");
-        });
+                prefs.CustomIcon = "";
+                prefs.notify_property("CustomIcon");
+            });
 
         save_button.clicked.connect(() => {
                 prefs.ConfirmDialogs = toggle.active;
                 prefs.notify_property("ConfirmDialogs");
                 print("Settings saved: ConfirmDialogs = %s\n", toggle.active.to_string());
-                destroy(); // закрити вікно після збереження
+                destroy();
             });
 
         cancel_button.clicked.connect(() => {
-                destroy(); // закрити без збереження
+                destroy();
             });
 
         show_all();

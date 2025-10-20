@@ -9,6 +9,7 @@ public class QuitDockItem : DockletItem
 
     private Gdk.Pixbuf icon_pixbuf;
     private QuitDockItemPreferences prefs;
+    private SettingsWindow? settings_window = null;
 
     public QuitDockItem.with_dockitem_file(GLib.File file) {
         GLib.Object(Prefs: new QuitDockItemPreferences.with_file(file));
@@ -77,7 +78,7 @@ public class QuitDockItem : DockletItem
 
         var settings_item = new Gtk.MenuItem.with_label(_("Settings"));
         settings_item.activate.connect(() => {
-                new Quit.SettingsWindow(this, prefs);
+                open_settings_window();
             });
         items.add(settings_item);
 
@@ -97,6 +98,25 @@ public class QuitDockItem : DockletItem
         }
     }
 
+    private void open_settings_window()
+    {
+        if(settings_window != null && settings_window.is_visible())
+        {
+            settings_window.present();
+            return;
+        }
+
+        settings_window = new SettingsWindow(this, prefs);
+        settings_window.set_destroy_with_parent(true);
+
+        settings_window.destroy.connect(() => {
+                settings_window = null;
+            });
+
+        settings_window.show_all();
+    }
+
 }
 }
+
 
