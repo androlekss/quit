@@ -8,12 +8,14 @@ public class SessionManager : Object
     public enum Action {
         SHUTDOWN,
         REBOOT,
-        LOGOUT
+        LOGOUT,
+        SUSPEND
     }
 
     private static Gee.List<string> shutdown_cmds;
     private static Gee.List<string> reboot_cmds;
     private static Gee.List<string> logout_cmds;
+    private static Gee.List<string> suspend_cmds;
 
 
     public static void init_commands()
@@ -36,6 +38,10 @@ public class SessionManager : Object
         logout_cmds.add("xfce4-session-logout --logout");
         logout_cmds.add("mate-session-save --logout");
         logout_cmds.add("cinnamon-session-quit --logout --no-prompt");
+
+        suspend_cmds = new Gee.ArrayList<string>();
+        suspend_cmds.add("systemctl suspend");
+        suspend_cmds.add("pm-suspend");
     }
 
     public static void perform_with_confirmation(Gtk.Window? parent, Action action, QuitDockItemPreferences prefs)
@@ -54,6 +60,7 @@ public class SessionManager : Object
         case Action.SHUTDOWN: message = _("Are you sure you want to shut down?"); break;
         case Action.REBOOT:   message = _("Are you sure you want to reboot?"); break;
         case Action.LOGOUT:   message = _("Are you sure you want to log out?"); break;
+        case Action.SUSPEND:  message = _("Are you sure you want to suspend?"); break;
         default:
             warning("[SessionManager] Unknown action: %s\n", action.to_string());
             return;
@@ -64,8 +71,16 @@ public class SessionManager : Object
             Gtk.DialogFlags.MODAL,
             Gtk.MessageType.QUESTION,
             Gtk.ButtonsType.OK_CANCEL,
-            message
+            null
             );
+
+        dialog.set_markup("<span weight='bold'>" + message + "</span>");
+        
+        dialog.set_default_size(400, 100);
+        dialog.set_border_width(6);
+        
+        var content = dialog.get_content_area() as Gtk.Box;
+        content.set_spacing(6);
 
         dialog.set_title(_("Confirm Action"));
         dialog.response.connect((response_id) => {
@@ -92,6 +107,7 @@ public class SessionManager : Object
         case Action.SHUTDOWN: cmds = shutdown_cmds; break;
         case Action.REBOOT: cmds = reboot_cmds; break;
         case Action.LOGOUT: cmds = logout_cmds; break;
+        case Action.SUSPEND: cmds = suspend_cmds; break;
         default:
             warning("[SessionManager] Unknown action: %s\n", action.to_string());
             return;
